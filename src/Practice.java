@@ -65,26 +65,22 @@ public class Practice {
    * @return a sorted list of all reachable vertex values by 
    */
   public static List<Integer> sortedReachable(Vertex<Integer> starting) {
-    return sortedReachable(starting, new ArrayList<>());
+    List<Integer> result = new ArrayList<>();
+    Set<Vertex<Integer>> visited = new HashSet<>();
+    dfs(starting, visited, result);
+
+    Collections.sort(result);
+    return result;
   }
-  public static List<Integer> sortedReachable(Vertex<Integer> current, List<Vertex<Integer>> visited) {
-    if(current == null || visited.contains(current)) return new ArrayList<>();
+  private static void dfs(Vertex<Integer> current, Set<Vertex<Integer>> visited, List<Integer> result) {
+    if (current == null || visited.contains(current)) return;
 
     visited.add(current);
+    result.add(current.data);
 
-    for(Vertex<Integer> neighbor : current.neighbors) {
-      sortedReachable(neighbor, visited); 
+    for (Vertex<Integer> neighbor : current.neighbors) {
+        dfs(neighbor, visited, result);
     }
-
-    List<Integer> list = new ArrayList<>();
-    
-    for(Vertex<Integer> vert : visited) {
-      list.add(vert.data);
-    }
-
-    Collections.sort(list);
-
-    return list;
   }
 
   /**
