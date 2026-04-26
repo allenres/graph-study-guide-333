@@ -79,7 +79,7 @@ public class Practice {
     result.add(current.data);
 
     for (Vertex<Integer> neighbor : current.neighbors) {
-        dfs(neighbor, visited, result);
+      dfs(neighbor, visited, result);
     }
   }
 
@@ -94,8 +94,24 @@ public class Practice {
    * @return a sorted list of all reachable vertex values
    */
   public static List<Integer> sortedReachable(Map<Integer, Set<Integer>> graph, int starting) {
-    return null;
+    List<Integer> result = new ArrayList<>();
+    Set<Integer> visited = new HashSet<>();
+    dfs(graph, starting, result, visited);
+    Collections.sort(result);
+    return result;
   }
+  private static void dfs(Map<Integer, Set<Integer>> graph, int current, List<Integer> result, Set<Integer> visited) {
+    if(!graph.containsKey(current) || visited.contains(current)) return;
+
+    visited.add(current);
+    result.add(current);
+
+    Set<Integer> children = graph.get(current);
+    for(Integer child : children) {
+      dfs(graph, child, result, visited);
+    }
+  }
+  
 
   /**
    * Returns true if and only if it is possible both to reach v2 from v1 and to reach v1 from v2.
