@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +30,7 @@ public class Practice {
   public static int oddVertices(Vertex<Integer> starting) {
     return oddVertices(starting, new HashSet<>());
   }
-  public static int oddVertices(Vertex<Integer> current, Set<Vertex<Integer>> visited) {
+  private static int oddVertices(Vertex<Integer> current, Set<Vertex<Integer>> visited) {
     if(current == null || visited.contains(current)) return 0;
 
     visited.add(current);
@@ -63,7 +65,26 @@ public class Practice {
    * @return a sorted list of all reachable vertex values by 
    */
   public static List<Integer> sortedReachable(Vertex<Integer> starting) {
-    return null;
+    return sortedReachable(starting, new ArrayList<>());
+  }
+  public static List<Integer> sortedReachable(Vertex<Integer> current, List<Vertex<Integer>> visited) {
+    if(current == null || visited.contains(current)) return new ArrayList<>();
+
+    visited.add(current);
+
+    for(Vertex<Integer> neighbor : current.neighbors) {
+      sortedReachable(neighbor, visited); 
+    }
+
+    List<Integer> list = new ArrayList<>();
+    
+    for(Vertex<Integer> vert : visited) {
+      list.add(vert.data);
+    }
+
+    Collections.sort(list);
+
+    return list;
   }
 
   /**
